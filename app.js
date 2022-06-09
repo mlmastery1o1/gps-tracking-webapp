@@ -761,7 +761,7 @@ app.get("/api/get/dashboard", (req, res) => {
       var values = [user];
       con.query(sql, values, function(err, counts){
         if (err) throw err;
-        var sql = 'SELECT count(UserID) as users FROM User WHERE Companycode = (select companyID from company where AdminID=?);'
+        var sql = 'SELECT count(UserID) as users FROM user WHERE Companycode = (select companyID from company where AdminID=?);'
       var value = [user]
       con.query(sql, value, function(err, users){
         if(err) throw err;
@@ -777,7 +777,7 @@ app.post("/api/update/user", (req, res) => {
   // update data to the contianers table
   var password = md5(req.body.password);
   var sql =
-    "UPDATE User set UserID=?, Name = ?, Email=?, Password=?, role=? where UserID = ?;";
+    "UPDATE user set UserID=?, Name = ?, Email=?, Password=?, role=? where UserID = ?;";
   var values = [
     req.body.userid,
     req.body.name,
@@ -797,7 +797,7 @@ app.post("/api/update/user", (req, res) => {
 app.put("/api/update_container", (req, res) => {
   // update data to the contianers table
   var sql =
-    "UPDATE Containers SET Device_no = ?, Container_no=?, Container_type=?, Modified_on=current_timestamp WHERE ID=?;";
+    "UPDATE containers SET Device_no = ?, Container_no=?, Container_type=?, Modified_on=current_timestamp WHERE ID=?;";
   var values = [
     req.body.device,
     req.body.container,
@@ -815,7 +815,7 @@ app.put("/api/update_container", (req, res) => {
 
 app.post("/api/delete/user", (req, res) => {
   // update data to the contianers table
-  var sql = "Delete from User where UserID = ?";
+  var sql = "Delete from user where UserID = ?";
   var values = [req.body.id];
   con.connect(function (err) {
     if (err) throw err;
@@ -830,7 +830,7 @@ app.post("/api/add_container", (req, res) => {
   // Add new container and device pair to the container table
   session = req.session;
   var user = session.userid;
-  var sql = 'SELECT Container_no, Device_no from Containers Where Container_no =? or Device_no=?'
+  var sql = 'SELECT Container_no, Device_no from containers Where Container_no =? or Device_no=?'
   var values=[req.body.container_no, req.body.device_no]
   console.log(req.body)
 });
@@ -879,7 +879,7 @@ app.post("/api/update/status", (req, res) => {
   // update stuatus data to the contianers table
   if (req.body.status === "active") {
     console.log(req.body);
-    var sql = "UPDATE Containers SET status=? WHERE ID=?;";
+    var sql = "UPDATE containers SET status=? WHERE ID=?;";
     var values = ["Inactive", req.body.id];
     con.connect(function (err) {
         if (err) throw err;
@@ -888,7 +888,7 @@ app.post("/api/update/status", (req, res) => {
         });
       });
   } else {
-    var sql = "UPDATE Containers SET status=? WHERE ID=?;";
+    var sql = "UPDATE containers SET status=? WHERE ID=?;";
     var values = ["Active", req.body.id];
     con.connect(function (err) {
         if (err) throw err;
@@ -910,7 +910,7 @@ app.post("/api/uploadfile", uploadFile.single("uploadfile"), (req, res) => {
   readXlsxFile(filePath).then((rows) =>{
     rows.shift();
     var sql =
-      "Select Device_no, Container_no from Containers where Device_no IN (?) or Container_no IN (?);";
+      "Select Device_no, Container_no from containers where Device_no IN (?) or Container_no IN (?);";
     rows.forEach((element) => {
       
       devices.push(element[0]);
@@ -1053,7 +1053,7 @@ app.get("/api/thing", (reqs, res, next) => {
 app.get("/api/trial/", (req, res, next) => {
     session=req.session
   var user = session.userid
-  var sql = "SELECT Device_no, Container_no FROM Containers WHERE UserID = ?";
+  var sql = "SELECT Device_no, Container_no FROM containers WHERE UserID = ?";
   var values = [user];
   con.connect(function(err){
     if(err) throw err;
