@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup to Ocil Tech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+     rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Font Awesome -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+    rel="stylesheet"
+    />
+</head>
+
+<body>
+    <section class="vh-100" style="background-color: #eee;">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+              <div class="card text-black" style="border-radius: 25px;">
+                <div class="card-body p-md-4">
+                    <img src="./images/logo.png" class="img-fluid" alt="Sample image" style="width: 110px;">
+                
+                  <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-1">
+      
+                      <img src="./images/Wavy_Tsp-04_Single-11.jpg" class="img-fluid" alt="Sample image" >
+      
+                    </div>
+                    
+                    <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                      <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4">Sign Up</p>
+                      <div class="row mt-2">
+                          <div class="col">
+                            <p class="text-center h2 fw-bold mb-4 mx-1 mx-md-4 " style="background-color: #1D84FC; border-radius: 1vh; color: #fff; width: 120px;">User</p>
+                          </div>
+                          <div class="col">
+                            <a href="/signup-admin" style="color: #000;"><p class="text-center h2 fw-bold mb-4 mx-1 mx-md-4" >Admin</p></a>
+                          </div>
+                      </div>
+                      
+                      
+                      <form class="mx-1 mx-md-4" id="registeruserform">
+
+                          <div class="alert alert-info alert-dismissible fade show" id="warningsignupemail" role="alert" style="display: none;">
+                              Please enter correct email!
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                          
+                            <div class="alert alert-info alert-dismissible fade show" id="warningsignupcnfpass" role="alert" style="display: none;">
+                            Password Does not match
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                          
+                          <div class="alert alert-info alert-dismissible fade show" id="warningsignupemptyf" role="alert" style="display: none;">
+                            Fields cannot be empty
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+
+                          <div class="alert alert-danger alert-dismissible fade show" id="warningsignupemailexits" role="alert" style="display: none;">
+                            Email/username is already registered <br>Please use another email/username or login
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+
+                          <div class="alert alert-info alert-dismissible fade show" id="warningsignuppass" role="alert" style="display: none;">
+                            <ul>
+                              <li>Length sould be atleast 8 characters</li>
+                              <li>There Should be atleast 1 symbol(@,-,_,#,$,^)</li>
+                              <li>There should be atleast 1 Capital letter</li>
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="text" id="name" class="form-control" name="name"/>
+                            <label class="form-label" for="name">Your Name</label>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="text" id="usrname" class="form-control" name="usrname"/>
+                            <label class="form-label" for="name">Your Username</label>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="email" id="usremail" class="form-control" name="email"/>
+                            <label class="form-label" for="usremail">Your Email</label>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-building fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="text" id="businessname" class="form-control" name="businessname"/>
+                            <label class="form-label" for="businessname">Your Business Code</label>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="password" id="password" class="form-control" name="password"/>
+                            <label class="form-label" for="password">Password</label>
+                          </div>
+                        </div>
+      
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="password" id="cnfpassword" class="form-control" />
+                            <label class="form-label" for="cnfpassword">Repeat your password</label>
+                          </div>
+                        </div>
+      
+                        <div class="form-check d-flex justify-content-center mb-5">
+                          <input
+                            class="form-check-input me-2"
+                            type="checkbox"
+                            value=""
+                            id="form2Example3c"
+                          />
+                          <label class="form-check-label" for="form2Example3">
+                            I agree all statements in <a href="#!">Terms of service</a>
+                          </label>
+                        </div>
+      
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          <button type="button" class="btn btn-primary btn-lg" id="registerusrbtn">Register</button>
+                        </div>
+      
+                      </form>
+                      <p>already an user? <a href="/login">login here</a></p>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    <script>
+      $(document).ready(function() {  
+            $("#registerusrbtn").on("click", function() { 
+              var usrname = $("#usrname").val(); 
+              var name = $('#name').val();
+              var email = $("#usremail").val(); 
+              var business = $("#businessname").val();
+              var password = $("#password").val();
+              var cnfpassword = $("#cnfpassword").val();
+              if(!name){
+                $("#warningsignupemptyf").show()
+                
+              }
+              if(!usrname){
+                $("#warningsignupemptyf").show()
+                
+              }
+              if(!email){
+                $("#warningsignupemptyf").show()
+               
+              }
+              if(!business){
+                $("#warningsignupemptyf").show()
+                
+              }
+              if(!password){
+                $("#warningsignupemptyf").show()
+               
+              }
+              if(!cnfpassword){
+                $("#warningsignupemptyf").show()
+               
+              }
+              else{
+                data ={
+                  "usrname": usrname,
+                  "name" : name,
+                  "email": email,
+                  "password": password,
+                  "businessname": business
+                }
+                $("#warningsignupemptyf").hide()
+                $.ajax({
+                            url: '/usrregistration',
+                            type: 'POST',
+                            data: data,
+                            success: function(data) {
+                               if(data.status === 201){
+                                 alert("Your registration is sucessfull Please login to your account");
+                                 window.location.href = "/login"
+                               }else{
+                                 alert(data.message)
+                               }
+                            }
+                        });
+              }  
+                
+            });   
+        })
+
+      $('#usremail').keyup(function(){
+        var email = $('#usremail').val()
+        if(IsEmail(email)){
+          $('#warningsignupemail').hide()
+        }else{
+          $('#warningsignupemail').show()
+        }
+      })
+      $('#password').keyup(function(){
+        var pass = $('#password').val()
+        if(Ispassword(pass)){
+          $('#warningsignuppass').hide()
+        }else{
+          $('#warningsignuppass').show()
+        }
+      })
+      $('#cnfpassword').keyup(function(){
+        var pass = $('#password').val()
+        var cnfpass = $('#cnfpassword').val()
+        if(cnfpass == pass){
+          $('#warningsignupcnfpass').hide()
+        }else{
+          $('#warningsignupcnfpass').show()
+        }
+      })
+      function IsEmail(email) {
+             var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+             if(!regex.test(email)) {
+                return false;
+             }else{
+                return true;
+             }
+           }
+      function Ispassword(pass) {
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if(!regex.test(pass)) {
+          return false;
+        }else{
+          return true;
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <!-- MDB -->
+<script
+type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
+></script>
+</body>
+
+</html>

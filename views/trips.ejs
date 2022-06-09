@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database</title>
+</head>
+<body>
+    <h1>All the trip history is displayed here</h1>
+    <p>Welcome to the database</p>
+
+</body>
+    <script>
+        var data = []
+        var values = [1,1,2,2,3,3,4,4,5,5,6,6]
+        for (let i=0; i<values.length-1; i+2){
+            data.push({"device_no":values[i], "container_no":values[i+1]})
+        }
+        console.log(data)
+    </script>
+</html>

@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSCIL TECH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- Font Awesome -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    rel="stylesheet"
+    />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+</head>
+<script src='https://cdn.plot.ly/plotly-2.11.1.min.js'></script>
+<style>
+
+.navlink{
+    align-items: center;
+}
+.navlink:hover{
+    background-color: #ececec;
+}
+.add{
+    font-size: 35px;
+    color: rgb(13, 119, 146) !important
+}
+.add:hover{
+    font-size: 40px;
+    color: rgb(13, 119, 146) !important
+}
+
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white" style="box-shadow: 2px 0px 10px rgb(230, 230, 230);">
+        <div class="container">
+            <button class="btn btn-outline-secondry" data-toggle="collapse" data-target="#sidenav" id="sidenavToggler"><i class="fa-solid fa-bars"></i> </button>
+
+          <a class="navbar-brand ps-3" href="#"><img src="./images/logo.png" alt="" width="93.15" height="40px"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto" style="align-items: baseline;">
+              <a class="nav-link " aria-current="page" href="/" style="color: #000000;">Live Tracking</a>
+              <div class="btn-group dropdown">
+                <a class="nav-link dropdown" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-angle-down"></i> </a>
+                <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarScrollingDropdown">
+                    <li><a class="dropdown-item" href="#" id="dashboardbtn2">Dashboard</a></li>
+                    <li><a class="dropdown-item" href="#" id="containerlistbtn2">Container list</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                </ul>
+            </div>
+              <a class="nav-link active" href="#" style="color: #1DAFFC;"> Console <img src="./images/user.jpg" alt="" width="30px" height="30px" style="border-radius: 40px;"> </a>
+            </div>
+
+          </div>
+        </div>
+      </nav>
+    
+    <!-- Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mymodal">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              
+            </div>
+            <div class="modal-body">
+                    <p>Are you sure you want to change the status!</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" id="modal-btn-no">Cancel</button>
+              <button type="button" class="btn btn-warning" id="modal-btn-si">Change</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="data_upload_modal">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="data_upload_modalLable">Confirmation</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              
+            </div>
+            <div class="modal-body">
+                    <p>These rows are already present in the database</p>
+                    <ul id="data_upload_modal_list">
+                        
+                    </ul>
+                    <p id="data_upload_modal_text"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" id="data_upload_modal-no">Cancel</button>
+              <button type="button" class="btn btn-danger" id="data_upload_modal-si">Replace</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid ">
+          <div class="row mt-1" >
+                <div class="col col-lg-2 col-md-3 col-sm-12 p-10" id='sidenav' style="box-shadow: 1px 0px 5px rgb(230, 230, 230); overflow-y: auto; height:100vh; display: none;"> 
+                    <div class="navbar-nav mt-2" style="font-size: calc(.5em + 0.9vw);">
+                        <a class="nav-link navlink p-1" href="#" style="color: #2e2e2e;" id="dashboardbtn"><i class="fa-solid fa-gauge" style="color: #2e2e2e;"></i> Dashboard</a><hr>
+                        <a class="nav-link navlink p-2" href="#" style="color: #2e2e2e;" id="userprofilebtn"><i class="fas fa-address-card " style="color: #2e2e2e;"></i>  User Profile</a><hr>
+                        <a class="nav-link navlink p-2" href="#" style="color: #2e2e2e;" id="containerlistbtn"><i class="fas fa-table-list " style="color: #2e2e2e;"></i>  Container List</a><hr>
+                        <a class="nav-link navlink p-2  mt-1" href="#" style="color: #2e2e2e;" id="addnewrecbtn"><i class="fas fa-square-plus" style="color: #2e2e2e;"></i>  Add New Records </a><hr>
+                        <a class="nav-link navlink p-2  mt-1" href="#" style="color: #2e2e2e;"><i class="fas fa-gear" style="color: #2e2e2e;"></i>  Settings</a><hr>
+                        <a class="nav-link navlink p-2  mt-1" href="/logout" style="color: #2e2e2e;"><i class="fas fa-arrow-right-from-bracket" style="color: #2e2e2e;"></i>  Log out</a><hr>
+                        <a class="nav-link navlink p-2  mt-1" href="#" style="color: #2e2e2e;"><i class="fas fa-question" style="color: #2e2e2e;"></i>  Help center</a><hr>
+                        </div>
+                    
+                    
+                </div>
+                <div class="col mt-md-2 p-4" id="dashboard" style="background-color: rgb(247, 247, 247);">
+                    <div class="row">
+                        <center><h2>Dashboard</h2></center>
+                    </div>
+                    <div class="container mt-1">
+                        <div class="row p-2" >
+                            <div class="col col-lg-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                    <p>Containers</p>
+                                    <h5 id="containerCount"></h5>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="col col-lg-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <p>Active Devices</p>
+                                        <h5 id="activeconCount"></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-lg-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <p>Inactive Device</p>
+                                        <h5 id="inactiveconCount"></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2" id="Grapdiv" style="max-width: fit-content;">
+
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                <div class="col mt-lg-3 mt-md-2" id="Container_table" style="display: none;">
+                    <center><h3>Container-Device Details</h3></center>
+                    <div class="row d-flex justify-content-center px-5">
+                        <div class="row mt-1">
+                            <div class="col col-lg-4 col-md-6 col-sm-12">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2" id="search_input">
+                                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                                  </div>
+                                
+                            </div>
+                            <div class="col col-lg-3 col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon2">Container Type</span>
+                                    <select class="form-select" aria-label="Default select example" id="containertypelist">
+                                        <option selected value="">All</option>
+                                        <option value="20' STD ">20' STD </option>
+                                        <option value="40' STD">40' STD</option>
+                                        <option value="40' HC">40' HC</option>
+                                        <option value="40. RF">40. RF</option>
+                                        <option value="20' FR">20' FR</option>
+                                        <option value="40' FR">40' FR</option>
+                                        <option value="20' OT">20' OT</option>
+                                        <option value="40' OT">40' OT</option>
+                                    
+                                  </select>
+                                    
+                                  </div>
+                                
+                            </div>
+                            <div class="col col-lg-3 col-md-6">
+                                <div class="input-group mb-3">
+                                    <input type="button" class="btn btn-success" value="Download Container data" id="dnldContainerdata">
+                                  </div>
+                                
+                            </div>
+                        </div>
+                        <div class="row mt-3" style="overflow: auto;">
+                            <table class="table table-hover table-responsive table-bordered align-middle" id="tbl_con_data" >
+                                <caption>List of devices and Containers</caption>
+                                <thead>
+                                    <tr>
+                                    <th >ID</th>
+                                    <th onclick="sortTable(1)" >Device No. <i class="fa-solid fa-sort fa-sm" style="color: #9c9c9c; font-size:small;"></i></th>
+                                    <th onclick="sortTable(2)">Container No. <i class="fa-solid fa-sort fa-sm" style="color: #9c9c9c; font-size:small;"></i></th>
+                                    <th >Container Type</th>
+                                    <th >Current City</th>
+                                    <th onclick="sortTable(5)">Device Status <i class="fa-solid fa-sort fa-sm" style="color: #9c9c9c; font-size:small;"></i></th>
+                                    <th >% Battery</th>
+                                    <th colspan="2">Actions</th>
+                                    
+                                    </tr>
+                                    
+                                </thead>
+                                <tbody>
+                                     <%
+                                    if(data.length!=0){
+                                    var i=1;
+                                    data.forEach(function(rows){
+                                    %>
+                                    <tr data-id = "<%=rows.ID %>" data-device="<%=rows.Device_no %>" data-container="<%=rows.Container_no %>" data-type="<%=rows.Type %>" data-status="<%=rows.Status%>">
+                                        <td row_id="<%=i; %>"><%=i; %></td>
+                                        <td><%=rows.Device_no %></td>
+                                        <% if (rows.Status.toLowerCase() === 'active'){ %>
+                                            <td><%=rows.Container_no %> <button style="border: none; background: none;" id="containerlivebtn"><i class="fa-solid fa-globe"  style="color: green;"></i></button> </td>
+                                             <% } else{ %>
+                                                <td><%=rows.Container_no %> <button disabled style="border: none; background: none;" id="containerlivebtn"><i class="fa-solid fa-globe"  style="color: grey;"></i></button> </td>
+                                            <% } %>
+                                        
+                                        <td><%=rows.Container_type %></td>
+                                        <td><%=rows.Current_city %></td>
+                                        <% if (rows.Status.toLowerCase() === 'active'){ %>
+                                            <td style="color: green; font-weight: 400;"><%=rows.Status %></td>
+                                             <% } else{ %>
+                                            <td style="color: grey;"><%=rows.Status %></td>
+                                            <% } %>
+                                        
+                                        <td><%=rows.Battery %></td>
+                                        <td><button class="btn btn-primary btn-sm" id="editbtn" ><i class="fa fa-pencil"></i> Edit</button></td>
+                                        <td><button class="btn btn-warning btn-sm" id="statusbtn">Active/Inactive</button></td>
+                                    </tr>
+                                    <%  i++; }) %>
+                                    <% } else{ %>
+                                        <tr>
+                                            <td colspan="6">No Data Found</td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+
+                              </table>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col mt-5" id="add_records_div" style="display:none">
+                    <div class="container">
+
+                    
+                    <div class="row">
+                        <center>
+                            <h2>Add New Records</h2>
+                        </center>
+                        
+                    </div>
+                    <center>
+                        <div class="alert alert-danger" role="alert" id="alert" style="display: none;">
+                                Try changing some parameters before trying again!
+                            </div>
+                        </center>
+                        <div class="row container px-5 mt-5">  
+                            <form method="post" action="">
+                                <div class="row">
+                                    <div class="col-lg-12 " id="readdivdata">
+                                        <div id="inputFormRow">
+                                            <div class="input-group mb-3">
+                                                <div class="col">
+                                                    <input type="text" name="device[]" class="form-control m-input alphanumericOnly" placeholder="Enter Device Number" autocomplete="off" id="device_no" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
+                                                </div>
+                                                <div class="col ps-2">
+                                                    <input type="text" name="container[]" class="form-control m-input alphanumericOnly" placeholder="Enter Container Number" autocomplete="off" id="container_no" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
+                                                </div>
+                                                <div class="col ps-2">
+                                                    <select class="form-select" id="containertypelistadd" name="type[]" placeholder="Select Container Type" id="container_type">
+                                                        <option value="20' STD ">20' STD </option>
+                                                        <option value="40' STD">40' STD</option>
+                                                        <option value="40' HC">40' HC</option>
+                                                        <option value="40. RF">40. RF</option>
+                                                        <option value="20' FR">20' FR</option>
+                                                        <option value="40' FR">40' FR</option>
+                                                        <option value="20' OT">20' OT</option>
+                                                        <option value="40' OT">40' OT</option>
+                                                      </select>
+                                                </div>
+                                                <div class="input-group-append ps-2">
+                                                    <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                            
+                                        <div id="newRow"></div>
+                                        <div class="col">
+                                            <button id="addRow" type="button" class="btn btn-info">Add Row</button>
+                                            <button id="save_data" type="button" class="btn btn-success">Save</button>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </form>    
+                        </div>
+                        <br>
+                        <hr>
+                    <div class="row container">
+                        <center>
+                            <div class="row">
+                               <h2>UPLOAD BULK DATA</h2>
+                           </div>
+                       </center>
+                          
+                           <div class="row mt-5 mx-2 mb-3" style="width: 600px;">
+                               <input type="file" class="form-control" id="inputGroupFile02" name="uploadfile" placeholder="Upload file">
+                           </div>
+                           <div class="mx-2 col-lg-8 col-md-12 col-sm-12">
+                            <div class="d-flex justify-content-between">
+                               <div><button type="button" class="btn btn-success" id="uploadbtn" >Upload</button></div>
+                               <div class="ms-auto"><a href="./dummydata/dataformat.xlsx" download="data Format"><button type="button" class="btn btn-info" id="downloadfileformatbtn" >Download file format</button></a></div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                </div>
+                
+
+                <div class="col" id="userprofile" style="display: none;">
+                    <div class="container-xl px-4 mt-4">
+                        
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <!-- Profile picture card-->
+                                <div class="card mb-4 mb-xl-0">
+                                    <div class="card-header">Profile Picture</div>
+                                    <div class="card-body text-center">
+                                        <!-- Profile picture image-->
+                                        <img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                        <!-- Profile picture help block-->
+                                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                                        <!-- Profile picture upload button-->
+                                        <button class="btn btn-primary" type="button"> Upload new image</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-8">
+                                <!-- Account details card-->
+                                <div class="card mb-4">
+                                    <div class="card-header">Account Details</div>
+                                    <div class="card-body">
+                                        <form>
+                                            <!-- Form Group (username)-->
+                                            <div class="mb-3">
+                                                <label class="small mb-1" for="inputUsername">Username</label>
+                                                <input class="form-control" id="inputUsername" type="text" disabled placeholder="Enter your username" value="username">
+                                            </div>
+                                            <!-- Form Row-->
+                                            <div class="row gx-3 mb-3">
+                                                <!-- Form Group (first name)-->
+                                                <div class="col-md-12">
+                                                    <label class="small mb-1" for="inputFirstName">Name</label>
+                                                    <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="Valerie">
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                            <!-- Form Row        -->
+                                            <div class="row gx-3 mb-3">
+                                                <!-- Form Group (organization name)-->
+                                                <div class="col-md-6">
+                                                    <label class="small mb-1" for="inputOrgName">Organization name</label>
+                                                    <input class="form-control" id="inputOrgName" disabled type="text" placeholder="Enter your organization name" value="Oscil Tech">
+                                                </div>
+                                                <!-- Form Group (location)-->
+                                                <div class="col-md-6">
+                                                    <label class="small mb-1" for="inputOrgCode">Organization Code</label>
+                                                    <input class="form-control" id="inputOrgCode" disabled type="text" placeholder="Enter your organization code" >
+                                                </div>
+                                            </div>
+                                            <div class="row gx-3 mb-3">
+                                                <!-- Form Group (first name)-->
+                                                <div class="col-md-6">
+                                                    <label class="small mb-1" for="inputLocation">Location</label>
+                                                    <input class="form-control" id="inputLocation" disabled type="text" placeholder="Enter your Business location" value="San Francisco, CA">
+                                                </div>
+                                                
+                                            </div>
+                                            <!-- Form Group (email address)-->
+                                            <div class="mb-3">
+                                                <label class="small mb-1" for="inputEmailAddress" >Email address</label>
+                                                <input class="form-control" id="inputEmailAddress" disabled type="email" disabled placeholder="Enter your email address" value="name@example.com">
+                                            </div>
+                                            <!-- Form Row-->
+                                            <div class="row gx-3 mb-3">
+                                                <!-- Form Group (phone number)-->
+                                                <div class="col-md-12">
+                                                    <label class="small mb-1" for="inputPhone">Phone number</label>
+                                                    <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="555-123-4567">
+                                                </div>
+                                                
+                                            </div>
+                                            <!-- Save changes button-->
+                                            <button class="btn btn-primary" type="button" id="saveuserprofiledatabtn">Save changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+        
+      </div>
+      <script>
+          $(document).ready(function(){  
+            $.ajax({
+                        url: '/api/get/dashboard',
+                        type: 'GET', 
+                        success: function(data) {
+                            // fill the data
+                            var X = []
+                            var Y = []
+                            data.rows.forEach(function(element, indx){
+                                X.push(element.Created_on);
+                                Y.push(element.Count)
+                                var data = [
+                                    {
+                                        x: X,
+                                        y: Y,
+                                        type: 'scatter'
+
+                                    }
+                                    ];
+                                var layout = {
+                                    title: 'Containers Registration Per Month'
+                                }
+                                Plotly.newPlot('Grapdiv', data, layout);
+                            })
+                            $('#containerCount').text(data.counts[0].Total)
+                            $('#activeconCount').text(data.counts[0].Active + "/"+data.counts[0].Total)
+                            $('#inactiveconCount').text((data.counts[0].Total - data.counts[0].Active)+"/"+data.counts[0].Total)
+                        }
+                    });
+            
+            
+          })
+          $(document).ready(function(){
+              $('#sidenavToggler').on('click', function(){
+                  $('#sidenav').toggle(125);
+              })
+          })
+          $(document).ready(function(){
+              // User Profile get data btn btn function
+              $('#userprofilebtn').on('click', function(){
+                $("#Container_table").hide(); 
+                $("#add_records_div").hide();  
+                $('#upload_records_div').hide();
+                $('#userlist').hide();
+                $('#userprofile').show();
+                $('#dashboard').hide();
+                $("#userprofilebtn").css({"background-color":"#ededed"});
+                $("#addnewrecbtn").css({"background-color":"white"});
+                $("#containerlistbtn").css({"background-color":"white"});
+                $("#dashboardbtn").css({"background-color":"white"});
+                // User Profile get data function
+                $.ajax({
+                            url: '/api/getUserDetails',
+                            type: 'GET', 
+                            success: function(data) {
+                                console.log(data)
+                               $('#inputUsername').val(data.data[0].UserID);
+                               $('#inputFirstName').val(data.data[0].Name);
+                               $('#inputEmailAddress').val(data.data[0].Email);
+                               $('#inputOrgCode').val(data.data[0].Companycode);
+                               $('#inputOrgName').val(data.comdata[0].BusinessName);
+                               $('#inputLocation').val(data.comdata[0].Address);
+                               $('#inputPhone').val(data.data[0].Phone);
+                            }
+                        });
+
+              })
+          })
+          $('#saveuserprofiledatabtn').on('click', function(){
+                var username = $('#inputUsername').val();
+                var name = $('#inputFirstName').val();
+                var email = $('#inputEmailAddress').val();
+                var companycode = $('#inputOrgCode').val();
+                var companyname = $('#inputOrgName').val();
+                var companylocation = $('#inputLocation').val();
+                var phone = $('#inputPhone').val();
+                data = {
+                    username: username,
+                    name: name,
+                    email:email,
+                    companycode: companycode,
+                    phone: phone
+
+                }
+                $.ajax({
+                    url: "/api/update/userprofile",
+                    type: 'Post',
+                    data: data,
+                     success: function(data){
+                        $.ajax({
+                            url: '/api/getUserDetails',
+                            type: 'GET', 
+                            success: function(data) {
+                                console.log(data)
+                               $('#inputUsername').val(data.data[0].UserID);
+                               $('#inputFirstName').val(data.data[0].Name);
+                               $('#inputEmailAddress').val(data.data[0].Email);
+                               $('#inputOrgCode').val(data.data[0].Companycode);
+                               $('#inputOrgName').val(data.comdata[0].BusinessName);
+                               $('#inputLocation').val(data.comdata[0].Address);
+                               $('#inputPhone').val(data.data[0].Phone);
+                            }
+                        });
+                     }
+                })
+
+          })
+          
+      </script>
+      <script>
+          $("#addRow").click(function () {
+        var html = '';
+        html += '<div id="inputFormRow">';
+        html += '<div class="input-group mb-3">';
+        html += '<div class="col">';
+        html += '<input type="text" name="device[]" class="form-control m-input alphanumericOnly" placeholder="Enter Device Number" autocomplete="off" id="device_no" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g, \'\')">';
+        html += '</div>';
+        html += '<div class="col ps-2">';
+        html += '<input type="text" name="container[]" class="form-control m-input alphanumericOnly" placeholder="Enter Container Number" autocomplete="off" id="container_no" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g, \'\')">';
+        html += '</div>';
+        html += '<div class="col ps-2">';
+        html += '<select class="form-select" id="containertypelistadd" name="type[]" placeholder="Select Container Type" id="container_type">'
+        html += '<option value="20\' STD">20\' STD </option>'
+        html +=        '<option value=\'40" STD\'>40" STD</option>'
+        html +=        '<option value="40\' HC">40\' HC</option>'
+        html +=        '<option value="40. RF">40. RF</option>'
+        html +=        '<option value="20\' FR">20\' FR</option>'
+        html +=        '<option value="40\' FR">40\' FR</option>'
+        html +=        '<option value="20\' OT">20\' OT</option>'
+        html +=        '<option value="40\' OT">40\' OT</option>'
+        html +=        '</select>';
+        html += '</div>';
+        html += '<div class="input-group-append ps-2">';
+        html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+        html += '</div>';
+        html += '</div>';
+
+        $('#newRow').append(html);
+    });
+    
+    // remove row
+    $(document).on('click', '#removeRow', function () {
+        $(this).closest('#inputFormRow').remove();
+    });
+    
+          
+        $(document).ready(function() {  
+            function upload_excel_function(){
+                var fileSelect = document.getElementById('inputGroupFile02');
+                // Get the files from the input
+                var files = fileSelect.files;
+
+                // Create a FormData object.
+                var formData = new FormData();
+
+                //Grab only one file since this script disallows multiple file uploads.
+                var file = files[0]; 
+                
+                formData.append('uploadfile', file, file.name);
+                // Set up the request.
+                var xhr = new XMLHttpRequest();
+
+                // Open the connection.
+                xhr.open('POST', '/api/uploadfile/replace', true);
+                xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert('Data uploaded sucessfully')
+                   
+                } else {
+                    alert('An error occurred during the upload. Try again.');  
+                }
+                };
+
+                // Send the data.
+                xhr.send(formData);
+            }
+            $("#uploadbtn").on("click", function() {  
+                var ext = $('#inputGroupFile02').val().split('.').pop().toLowerCase();
+                if(ext !== 'xls' && ext !== 'xlsx') {
+                    alert('Please upload excel file only.');
+                    return false;
+                }
+                var fileSelect = document.getElementById('inputGroupFile02');
+                // Get the files from the input
+                var files = fileSelect.files;
+
+                // Create a FormData object.
+                var formData = new FormData();
+
+                //Grab only one file since this script disallows multiple file uploads.
+                var file = files[0]; 
+                console.log(file.name)
+                formData.append('uploadfile', file, file.name);
+                // Set up the request.
+                var xhr = new XMLHttpRequest();
+
+                // Open the connection.
+                xhr.open('POST', '/api/uploadfile', true);
+            
+
+                // Set up a handler for when the task for the request is complete.
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                    var redundant = JSON.parse(xhr.response)
+                    $("#data_upload_modal").modal('show');
+                        redundant.rows.forEach((element)=>{
+                            console.log(element.Device_no);
+                            $('#data_upload_modal_list').append('<li>'+ element.Device_no + ' - '+ element.Container_no +'</li>');
+                        })
+                    $("#data_upload_modal-si").on('click', function(){
+                        upload_excel_function();
+                        $('#data_upload_modal_list').empty();
+                        $("#data_upload_modal").modal('hide');
+                    })
+                    $("#data_upload_modal-no").on('click', function(){
+                        $('#data_upload_modal_list').empty();
+                        $("#data_upload_modal").modal('hide');
+                    })
+                   
+                } else {
+                    alert('An error occurred during the upload. Try again.');  
+                }
+                };
+
+                // Send the data.
+                xhr.send(formData);
+
+            });   
+        })
+      </script>
+      <script>
+        
+        $(document).ready(function() {  
+            $("#dashboardbtn").on("click", function() {  
+                $("#Container_table").hide();
+                $('#upload_records_div').hide();
+                $("#add_records_div").hide();  
+                $('#userlist').hide();
+                $('#userprofile').hide();
+                $('#dashboard').show();
+                $("#userprofilebtn").css({"background-color":"white"});
+                $("#addnewrecbtn").css({"background-color":"white"});
+                $("#containerlistbtn").css({"background-color":"white"});
+                $("#dashboardbtn").css({"background-color":"#ededed"});
+            });   
+        })
+
+        $(document).ready(function() {  
+            $("#dashboardbtn2").on("click", function() {  
+                $("#Container_table").hide();
+                $('#upload_records_div').hide();
+                $("#add_records_div").hide();  
+                $('#userlist').hide();
+                $('#userprofile').hide();
+                $('#dashboard').show();
+                $("#userprofilebtn").css({"background-color":"white"});
+                $("#addnewrecbtn").css({"background-color":"white"});
+                $("#containerlistbtn").css({"background-color":"white"});
+                $("#dashboardbtn").css({"background-color":"#ededed"});
+            });   
+        })
+
+        $(document).ready(function() {  
+            $("#addnewrecbtn").on("click", function() {  
+                $("#Container_table").hide();
+                $('#upload_records_div').hide();
+                $("#add_records_div").show();  
+                $('#userprofile').hide();
+                $('#dashboard').hide();
+                $("#userprofilebtn").css({"background-color":"white"});
+                $("#addnewrecbtn").css({"background-color":"#ededed"});
+                $("#containerlistbtn").css({"background-color":"white"});
+                $("#dashboardbtn").css({"background-color":"white"});
+            });   
+        })
+
+        $(document).ready(function() {  
+            $("#containerlistbtn").on("click", function() {  
+                $("#Container_table").show(); 
+                $("#add_records_div").hide();
+                $('#upload_records_div').hide();
+                $('#userlist').hide();
+                $('#userprofile').hide();
+                $('#dashboard').hide();
+                $("#userprofilebtn").css({"background-color":"white"});
+                $("#addnewrecbtn").css({"background-color":"white"});
+                $("#containerlistbtn").css({"background-color":"#ededed"});
+                $("#dashboardbtn").css({"background-color":"white"});
+            });   
+        })
+        $(document).ready(function() {  
+            $("#containerlistbtn2").on("click", function() {  
+                $("#Container_table").show(); 
+                $("#add_records_div").hide();
+                $('#upload_records_div').hide();
+                $('#userlist').hide();
+                $('#userprofile').hide();
+                $('#dashboard').hide();
+                $("#userprofilebtn").css({"background-color":"white"});
+                $("#addnewrecbtn").css({"background-color":"white"});
+                $("#containerlistbtn").css({"background-color":"#ededed"});
+                $("#dashboardbtn").css({"background-color":"white"});
+            });   
+        })
+        $(document).ready(function(){
+                $("#device_no").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#tbl_con_data tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+                });
+        $('#device_no').blur(function(){
+            if( !$(this).val() ) {
+                $(this).parents('p').addClass('warning');
+            }
+        });
+        $('#container_no').blur(function(){
+            if( !$(this).val() ) {
+                $(this).parents('p').addClass('warning');
+            }
+        });
+        $(document).ready(function() {  
+            $("#save_data").on("click", function() {
+                
+                var divElem = document.getElementById("readdivdata");
+                var inputElements = divElem.querySelectorAll("input, select");
+                var flag = 0;
+                data=[]
+                values=[]
+                for (const input of inputElements){
+                    if (input.value == ''){
+                        $('#alert').show();
+                        return false;
+                    }else{
+                        $('#alert').hide();
+                        
+                        values.push(input.value)
+                        var flag = 1;
+                    } 
+                }
+                
+                for(let i = 0; i < values.length -2; i=i+3){
+                    data.push({"device_no":values[i], "container_no":values[i+1], "container_type": values[i+2]})
+                }
+                
+                if (flag == 1){   
+                    console.log(data) 
+                    data.forEach(element => {
+                        $.ajax({
+                            url: '/api/add_container',
+                            type: 'PUT',
+                            data: element,
+                            success: function(data) {
+                                alert(data);
+                                $( "#tbl_con_data" ).load( "admin #tbl_con_data" );
+                            }
+                        });
+                    });
+                }    
+            });      
+        })
+      </script>
+      <script>
+          // Open new tab on click of container number button
+          $("body").on("click", "#containerlivebtn", function(){
+                var container = $(this).parents("tr").attr('data-container');
+                var date = new Date();
+                var last = new Date(date.getTime() - (7 * 24 * 60 * 60 * 1000));
+                var sday =last.getDate();
+                var smonth=last.getMonth()+1;
+                var syear=last.getFullYear();
+                var eday =date.getDate();
+                var emonth=date.getMonth()+1;
+                var eyear=date.getFullYear();
+                var startdate = ("0" +sday).slice(-2) + "/" + ("0"+(smonth)).slice(-2) + "/" + syear;
+                var enddate = ("0" + eday).slice(-2) + "/" + ("0"+(emonth)).slice(-2) + "/" + eyear;
+            var data ={
+                "select_box": container,
+                "filter_date": startdate+"-"+enddate
+            }
+              
+              $.post("/", data, function (data) {
+                var w = window.open('/');
+                w.document.open();
+                w.document.write(data);
+                w.document.close();
+                
+            });
+
+          })
+          $(document).ready(function(){
+              $("#dnldContainerdata").on('click', function(){
+                $("#tbl_con_data").table2excel({
+                    exclude: ".noExl",
+                    filename: "Container-Device.xls"
+                });
+              })
+          })
+          // Edit record from the container table
+            $("body").on("click", "#editbtn", function(){  
+                var device = $(this).parents("tr").attr('data-device');  
+                var container = $(this).parents("tr").attr('data-container'); 
+                var type = $(this).parents("tr").attr('data-type'); 
+                var id = $(this).parents("tr").attr('data-id')
+                var html_select = '';
+                html_select += '<select class="form-select" id="containertypelistadd" name="edit_type" placeholder="Select Container Type" id="container_type">'
+                html_select += '<option value="20\' STD ">20\' STD </option>'
+                html_select +=        '<option value=\'40" STD\'>40" STD</option>'
+                html_select +=        '<option value="40\' HC">40\' HC</option>'
+                html_select +=        '<option value="40. RF">40. RF</option>'
+                html_select +=        '<option value="20\' FR">20\' FR</option>'
+                html_select +=        '<option value="40\' FR">40\' FR</option>'
+                html_select +=        '<option value="20\' OT">20\' OT</option>'
+                html_select +=        '<option value="40\' OT">40\' OT</option>'
+                html_select +=        '</select>';
+                $(this).parents("tr").find("td:eq(1)").html('<input name="edit_device" value="'+device+'">');  
+                $(this).parents("tr").find("td:eq(2)").html('<input name="edit_container" value="'+container+'">');
+                $(this).parents("tr").find("td:eq(3)").html(html_select);   
+                $("#containertypelistadd").val(type).change();
+                  
+            
+                $(this).parents("tr").find("td:eq(7)").prepend("<button class='btn btn-info btn-sm btn-update'>Update</button>")  
+                $(this).parents("tr").find("td:eq(8)").prepend("<button class='btn btn-danger btn-sm btn-cancel'>Cancel</button>")  
+
+                $(this).hide();  
+                $(this).parents("tr").find("#statusbtn").hide();  
+            });  
+
+            $("body").on("click", ".btn-cancel", function(){  
+                var device = $(this).parents("tr").attr('data-device');  
+                var container = $(this).parents("tr").attr('data-container');
+                var type = $(this).parents("tr").attr('data-type'); 
+                var id = $(this).parents("tr").attr('data-id')
+
+                $(this).parents("tr").find("td:eq(1)").text(device);  
+                $(this).parents("tr").find("td:eq(2)").text(container);
+                $(this).parents("tr").find("td:eq(3)").text(type);   
+            
+                $(this).parents("tr").find("#editbtn").show();  
+                $(this).parents("tr").find("#statusbtn").show();  
+                $(this).parents("tr").find(".btn-update").remove();  
+                $(this).parents("tr").find(".btn-cancel").remove();  
+                $( "#tbl_con_data" ).load( "admin #tbl_con_data" );
+            });  
+            
+            $("body").on("click", ".btn-update", function(){  
+                var device = $(this).parents("tr").find("input[name='edit_device']").val();  
+                var container = $(this).parents("tr").find("input[name='edit_container']").val();
+                var type = $(this).parents("tr").find("select[name='edit_type']").val();
+                var id = $(this).parents("tr").attr('data-id')
+
+                $(this).parents("tr").find("td:eq(1)").text(device);  
+                $(this).parents("tr").find("td:eq(2)").text(container);  
+                $(this).parents("tr").find("td:eq(3)").text(type); 
+
+                $(this).parents("tr").attr('data-device', device);  
+                $(this).parents("tr").attr('data-container', container);  
+                $(this).parents("tr").attr('data-type', type);  
+                var data = {"id": id, "device": device, "container": container, "type": type}
+                $.ajax({
+                        url: '/api/update_container',
+                        type: 'PUT',
+                        data: data,
+                        success: function(data) {
+                            $( "#tbl_con_data" ).load( "admin #tbl_con_data" );
+                        }
+                    });
+                $(this).parents("tr").find("#editbtn").show();  
+                $(this).parents("tr").find("#statusbtn").show();  
+                $(this).parents("tr").find(".btn-cancel").remove();  
+                $(this).parents("tr").find(".btn-update").remove();  
+            });  
+            // change status of the container record from the container table
+            $("body").on("click", "#statusbtn", function(){  
+                var device = $(this).parents("tr").attr('data-device');  
+                var container = $(this).parents("tr").attr('data-container');
+                var status = $(this).parents("tr").attr('data-status');    
+                var id = $(this).parents("tr").attr('data-id')
+                //$(this).hide();  
+                $("#mymodal").modal('show');
+
+                $("#modal-btn-si").on("click", function(){
+                    var data = {"id": id, "status":status.toLowerCase()}
+                    $.ajax({
+                            url: '/api/update/status',
+                            type: 'POST',
+                            data: data,
+                            
+                        });
+                        $( "#tbl_con_data" ).load( "admin #tbl_con_data" );
+                    $("#mymodal").modal('hide');
+                });
+                        
+                $("#modal-btn-no").on("click", function(){
+                    $( "#tbl_con_data" ).load( "admin #tbl_con_data" );
+                    $("#mymodal").modal('hide'); 
+                });
+                //location.reload();
+                  
+            });
+
+            // Search through the table
+            $(document).ready(function(){
+                $("#search_input").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#tbl_con_data tr ").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+                });
+
+            // filter through the table through the table
+            $(document).ready(function(){
+                $("#containertypelist").on("change", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#tbl_con_data tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+                });
+
+      </script>
+      <script>
+        $(document).ready( function () {
+          $('#example').DataTable();
+          $('#tbl_con_data').DataTable();
+      } );
+      </script>  
+      <script>
+        function sortTable(n) {
+          var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+          table = document.getElementById("tbl_con_data");
+          switching = true;
+          // Set the sorting direction to ascending:
+          dir = "asc";
+          /* Make a loop that will continue until
+          no switching has been done: */
+          while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 1; i < (rows.length - 1); i++) {
+              // Start by saying there should be no switching:
+              shouldSwitch = false;
+              /* Get the two elements you want to compare,
+              one from current row and one from the next: */
+              x = rows[i].getElementsByTagName("TD")[n];
+              y = rows[i + 1].getElementsByTagName("TD")[n];
+              /* Check if the two rows should switch place,
+              based on the direction, asc or desc: */
+              if (dir == "asc") {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                  // If so, mark as a switch and break the loop:
+                  shouldSwitch = true;
+                  break;
+                }
+              } else if (dir == "desc") {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                  // If so, mark as a switch and break the loop:
+                  shouldSwitch = true;
+                  break;
+                }
+              }
+            }
+            if (shouldSwitch) {
+              /* If a switch has been marked, make the switch
+              and mark that a switch has been done: */
+              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+              switching = true;
+              // Each time a switch is done, increase this count by 1:
+              switchcount ++;
+            } else {
+              /* If no switching has been done AND the direction is "asc",
+              set the direction to "desc" and run the while loop again. */
+              if (switchcount == 0 && dir == "asc") {
+                dir = "desc";
+                switching = true;
+              }
+            }
+          }
+        }
+        </script>
+      <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
