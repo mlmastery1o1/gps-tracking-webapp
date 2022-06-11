@@ -152,7 +152,7 @@
                             <div class="col col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body">
-                                        <p>Inactive Device</p>
+                                        <p>Inactive Devices</p>
                                         <h5 id="inactiveconCount"></h5>
                                     </div>
                                 </div>
@@ -203,6 +203,10 @@
                             </div>
                         </div>
                         <div class="row mt-3" style="overflow: auto;">
+                            <div class="alert alert-info alert-dismissible fade show" id="warningdetailemptyf" role="alert" style="display: none;">
+                                Fields cannot be empty
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
                             <table class="table table-hover table-responsive table-bordered align-middle" id="tbl_con_data" >
                                 <caption>List of devices and Containers</caption>
                                 <thead>
@@ -214,7 +218,7 @@
                                     <th >Current City</th>
                                     <th onclick="sortTable(5)">Device Status <i class="fa-solid fa-sort fa-sm" style="color: #9c9c9c; font-size:small;"></i></th>
                                     <th >% Battery</th>
-                                    <th colspan="2">Actions</th>
+                                    <th colspan="2" class="noExl">Actions</th>
                                     
                                     </tr>
                                     
@@ -243,8 +247,8 @@
                                             <% } %>
                                         
                                         <td><%=rows.Battery %></td>
-                                        <td><button class="btn btn-primary btn-sm" id="editbtn" ><i class="fa fa-pencil"></i> Edit</button></td>
-                                        <td><button class="btn btn-warning btn-sm" id="statusbtn">Active/Inactive</button></td>
+                                        <td class="noExl"><button class="btn btn-primary btn-sm" id="editbtn" ><i class="fa fa-pencil"></i> Edit</button></td>
+                                        <td class="noExl"><button class="btn btn-warning btn-sm" id="statusbtn">Active/Inactive</button></td>
                                     </tr>
                                     <%  i++; }) %>
                                     <% } else{ %>
@@ -843,8 +847,8 @@
                 html_select +=        '<option value="20\' OT">20\' OT</option>'
                 html_select +=        '<option value="40\' OT">40\' OT</option>'
                 html_select +=        '</select>';
-                $(this).parents("tr").find("td:eq(1)").html('<input name="edit_device" value="'+device+'">');  
-                $(this).parents("tr").find("td:eq(2)").html('<input name="edit_container" value="'+container+'">');
+                $(this).parents("tr").find("td:eq(1)").html('<input name="edit_device" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g, \'\')" value="'+device+'">');  
+                $(this).parents("tr").find("td:eq(2)").html('<input name="edit_container" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g, \'\')" value="'+container+'">');
                 $(this).parents("tr").find("td:eq(3)").html(html_select);   
                 $("#containertypelistadd").val(type).change();
                   
@@ -861,6 +865,7 @@
                 var container = $(this).parents("tr").attr('data-container');
                 var type = $(this).parents("tr").attr('data-type'); 
                 var id = $(this).parents("tr").attr('data-id')
+                $("#warningdetailemptyf").hide()
 
                 $(this).parents("tr").find("td:eq(1)").text(device);  
                 $(this).parents("tr").find("td:eq(2)").text(container);
@@ -878,27 +883,42 @@
                 var container = $(this).parents("tr").find("input[name='edit_container']").val();
                 var type = $(this).parents("tr").find("select[name='edit_type']").val();
                 var id = $(this).parents("tr").attr('data-id')
+                if(!device){
+                $("#warningdetailemptyf").show()
+                }
+                else if(!container){
+                $("#warningdetailemptyf").show()
+                }
+                else if(!type){
+                $("#warningdetailemptyf").show()
+                }
+                else if(!id){
+                $("#warningdetailemptyf").show()
+                }
+                else{
+                    $("#warningdetailemptyf").hide()
+                    $(this).parents("tr").find("td:eq(1)").text(device);  
+                    $(this).parents("tr").find("td:eq(2)").text(container);  
+                    $(this).parents("tr").find("td:eq(3)").text(type); 
 
-                $(this).parents("tr").find("td:eq(1)").text(device);  
-                $(this).parents("tr").find("td:eq(2)").text(container);  
-                $(this).parents("tr").find("td:eq(3)").text(type); 
-
-                $(this).parents("tr").attr('data-device', device);  
-                $(this).parents("tr").attr('data-container', container);  
-                $(this).parents("tr").attr('data-type', type);  
-                var data = {"id": id, "device": device, "container": container, "type": type}
-                $.ajax({
-                        url: '/api/update_container',
-                        type: 'PUT',
-                        data: data,
-                        success: function(data) {
-                            $( "#tbl_con_data" ).load( "admin #tbl_con_data" );
-                        }
-                    });
-                $(this).parents("tr").find("#editbtn").show();  
-                $(this).parents("tr").find("#statusbtn").show();  
-                $(this).parents("tr").find(".btn-cancel").remove();  
-                $(this).parents("tr").find(".btn-update").remove();  
+                    $(this).parents("tr").attr('data-device', device);  
+                    $(this).parents("tr").attr('data-container', container);  
+                    $(this).parents("tr").attr('data-type', type);  
+                    var data = {"id": id, "device": device, "container": container, "type": type}
+                    $.ajax({
+                            url: '/api/update_container',
+                            type: 'PUT',
+                            data: data,
+                            success: function(data) {
+                                $( "#tbl_con_data" ).load( "admin #tbl_con_data" );
+                            }
+                        });
+                    $(this).parents("tr").find("#editbtn").show();  
+                    $(this).parents("tr").find("#statusbtn").show();  
+                    $(this).parents("tr").find(".btn-cancel").remove();  
+                    $(this).parents("tr").find(".btn-update").remove();  
+                }
+                
             });  
             // change status of the container record from the container table
             $("body").on("click", "#statusbtn", function(){  
@@ -949,13 +969,7 @@
                 });
                 });
 
-      </script>
-      <script>
-        $(document).ready( function () {
-          $('#example').DataTable();
-          $('#tbl_con_data').DataTable();
-      } );
-      </script>  
+      </script> 
       <script>
         function sortTable(n) {
           var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
