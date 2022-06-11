@@ -64,7 +64,7 @@ app.use(cookieParser());
 var session;
 
 // Server port
-var HTTP_PORT = 8000;
+var HTTP_PORT = 80;
 // Start Server
 app.listen(process.env.PORT || HTTP_PORT, () => {
   console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT));
