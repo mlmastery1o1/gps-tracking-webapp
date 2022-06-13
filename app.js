@@ -23,6 +23,11 @@ app.set("view engine", "ejs");
 // creating 24 hours from milliseconds
 const oneDay = 1000 * 60 * 60 * 24;
 
+function DmTOGPS(device,lat, long, battery){
+  var latitude = parseFloat(lat.slice(0,2)) + (parseFloat(lat.slice(2,4)+ "." +lat.slice(4,8))/60);
+  var longitude = parseFloat(long.slice(0,3)) + (parseFloat(long.slice(3,5)+ "." +long.slice(5,9))/60);
+  return [device,latitude.toString(), longitude.toString(), battery]
+}
 // User for starting a socket 
 // for listning for GPS device
 host = "0.0.0.0";
@@ -39,6 +44,28 @@ server.on("connection", (socket) => {
   console.log(`new client connected: ${clientAddress}`);
   socket.on("data", (data) => {
     console.log(`${clientAddress}: ${data}`);
+    var msg = data.toString()
+    let head = msg.slice(0, 5);
+    let res = msg.slice(5,6);
+    let device = msg.slice(6,12);
+    let cmd = msg.slice(13,15);
+    let cmd2 = msg.slice(15,17)
+    let time = msg.slice(17,23)
+    let DM_latitude = msg.slice(23,31)
+    let DM_longitude = msg.slice(31,40)
+    let date = msg.slice(40,46)
+    let battery = msg.slice(48,50)
+    var latlang = DmTOGPS(device, DM_latitude, DM_longitude, battery);
+    console.log(latlang)
+    con.connect(function (err) {
+      if (err) throw err;
+      var sql = "INSERT INTO location (Device_no, Latitude, Longitude, Time, Battery) VALUES (?,?,?,current_timestamp,?)";
+      var values = latlang;
+      con.query(sql, values, function (err, result) {
+        if (err) throw err;
+        return;
+      });
+    });
     
   });
   socket.on("close", () => {
@@ -64,7 +91,7 @@ app.use(cookieParser());
 var session;
 
 // Server port
-var HTTP_PORT = 80;
+var HTTP_PORT = 8000;
 // Start Server
 app.listen(process.env.PORT || HTTP_PORT, () => {
   console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT));
